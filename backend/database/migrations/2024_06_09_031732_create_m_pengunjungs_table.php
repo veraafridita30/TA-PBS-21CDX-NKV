@@ -11,9 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('m_pengunjungs', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::create('tb_pengunjung', function (Blueprint $table) {
+            //$table->id();
+
+            // buat field id
+            $table->integer('id')->autoIncrement();
+            // buat field email
+            $table->char('email', 50);
+            // buat field nama
+            $table->string("nama", 100);
+            // buat field telepon
+            $table->string("telepon", 15);
+            // buat field alamat
+            $table->string('alamat');
         });
     }
 
@@ -22,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('m_pengunjungs');
+        Schema::dropIfExists('tb_pengunjung');
     }
 };
