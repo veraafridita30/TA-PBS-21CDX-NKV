@@ -63,4 +63,36 @@ class MPengunjung extends Model
     }
 
     // buat fungsi untuk hapus data
+    function deleteData($email)
+    {
+        // $this->where("email", "=",$email)->delete();
+        $this->whereRaw("TO_BASE64(email) = '$email'")->delete();
+    }
+
+    // buat fungsi untuk detail data
+    function detailData($email)
+    {
+        $query = $this->select("id AS id_pengunjung", "email AS email_pengunjung", "nama AS nama_pengunjung", "telepon AS telepon_pengunjung", "alamat AS alamat_pengunjung")->from($this->table)->whereRaw("TO_BASE64(email) = '$email'");
+
+        return $query->get();
+    }
+
+    // buat fungsi untuk cek edit data
+    function checkEditData($email_lama, $email)
+    {
+        $query = $this->select("id")->where("npm", "=",$email)->whereRaw("TO_BASE64(email) != '$email_lama'")->get();
+
+        return $query;
+    }
+
+    // buat fungsi untuk edit data
+    function editData($email, $nama, $telepon, $alamat, $email_lama)
+    {
+        $this->whereRaw("TO_BASE64(email) = '$email_lama'")->update([
+            "email" => $email,
+            "nama" => $nama,
+            "telepon" => $telepon,
+            "alamat" => $alamat,
+        ]);
+    }
 }
